@@ -11,6 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Unzip project
+        run: unzip -q VDTest.zip -d project
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -21,9 +24,10 @@ jobs:
           gradle-version: 8.7
 
       - name: Build debug APK
+        working-directory: project/VDTest
         run: gradle assembleDebug --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
           name: VDTest-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: project/VDTest/app/build/outputs/apk/debug/app-debug.apk
